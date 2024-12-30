@@ -2,11 +2,14 @@ import os
 import datetime
 import aiohttp
 import asyncio
+from fastapi import FastAPI, Request
 from telebot.async_telebot import AsyncTeleBot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 from dotenv import load_dotenv
 from supabase import create_client, Client
 from telebot import asyncio_helper
+import uvicorn # Import the Uvicorn module
+
 
 # Load environment variables
 load_dotenv()
@@ -24,8 +27,10 @@ if not TOKEN:
 # Proxy configuration
 asyncio_helper.proxy = 'socks4://129.146.163.153:47060'
 
-
 bot = AsyncTeleBot(TOKEN)
+
+# Create FastAPI application
+app = FastAPI()
 
 async def ensure_bucket_exists(bucket_name):
     """Ensure the specified Supabase bucket exists."""
@@ -148,14 +153,35 @@ async def start(message):
     keyboard.add(InlineKeyboardButton(text="Open App", web_app=WebAppInfo(url="https://defi-sins.netlify.app/")))
     await bot.send_message(message.chat.id, "Welcome to the BeyCoin Bot! Please select an option:", reply_markup=keyboard)
 
-async def main():
-    """Start the bot's polling loop."""
-    print("Bot started...")
+
+@app.post("/webhook/")
+async def telegram_webhook(request: Request):
+    """Endpoint to handle Telegram webhook updates."""
+    update = await request.json()
+    await bot.process_new_updates([update])  # Process the update with your bot
+    return {"ok": True}
+
+async def set_webhook():
+    """Set the webhook for the bot."""
+    # Use the environment variable for the Vercel URL
+    webhook_url = f"https://{os.environ.get('VERCEL_URL')}/webhook/"
+    
     try:
-        await bot.polling(non_stop=True)
-        # await bot.infinity_polling()
+        await bot.set_webhook(webhook_url)
+        print(f"Webhook set to: {webhook_url}")
+    except Exception as e:
+        print(f"Error setting webhook: {e}")
+
+async def main():
+    """Start the bot's polling loop or set webhook."""
+    print("Bot started...")
+    await set_webhook()  # Start or stop the webhook for website
+    try:
+        await bot.polling(non_stop=True)  # Comment this line if you only want to use webhook
     except Exception as e:
         print(f"Error: {type(e).__name__} - {str(e)}")
 
+
 if __name__ == "__main__":
     asyncio.run(main())
+    uvicorn.run(app, host="0.0.0.0", port=8000)
