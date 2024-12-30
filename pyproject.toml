@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "DefiSins"
+version = "0.1.0"
+description = "Telegram bot DefiSins with FASTAPI configured"
+authors = ["t9fiction <sohail.sohailishaq@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+uvicorn = "^0.34.0"
+supabase = "^2.10.0"
+python-dotenv = "^1.0.1"
+pytelegrambotapi = "^4.25.0"
+aiohttp-socks = "^0.10.1"
+python-telegram-bot = {extras = ["socks"], version = "^21.9"}
+logging = "^0.4.9.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

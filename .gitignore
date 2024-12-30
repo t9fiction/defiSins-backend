@@ -1,0 +1,65 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+.env
+env/
+venv/
+ENV/
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Poetry specific
+poetry.lock
+
+# Logs
+*.log
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Unit test / coverage reports
+.coverage
+.tox/
+.nox/
+.cache/
+pytest_cache/
+.pytest_cache/
+
+# Supabase CLI
+.supabase/
+
+# IDE settings
+.idea/
+.vscode/
+*.swp
+*~
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Miscellaneous
+*.bak
+*.tmp
+
+# Output of 'poetry export'
+requirements.txt
+requirements-dev.txt
+requirements-*.txt
+
+# PyInstaller
+*.spec
+
+# Docker
+*.dockerfile
+docker-compose.override.yml
