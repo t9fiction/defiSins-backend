@@ -166,16 +166,15 @@ async def telegram_webhook(request: Request):
     await bot.process_new_updates([update])  # Process the update with your bot
     return {"ok": True}
 
-# async def set_webhook():
-#     """Set the webhook for the bot."""
-#     # Use the environment variable for the Vercel URL
-#     webhook_url = f"https://{os.environ.get('VERCEL_URL')}/webhook/"
-    
-#     try:
-#         await bot.set_webhook(webhook_url)
-#         print(f"Webhook set to: {webhook_url}")
-#     except Exception as e:
-#         print(f"Error setting webhook: {e}")
+async def set_webhook():
+    """Set the webhook for the bot."""
+    webhook_url = f"https://{os.environ.get('VERCEL_URL')}/webhook/"
+    try:
+        await bot.set_webhook(webhook_url)
+        print(f"Webhook set to: {webhook_url}")
+    except Exception as e:
+        print(f"Error setting webhook: {e}")
+
 
 async def main():
     """Start the bot's polling loop or set webhook."""
@@ -188,5 +187,5 @@ async def main():
 
 
 if __name__ == "__main__":
+    # Run only the Telegram bot in local development
     asyncio.run(main())
-    # uvicorn.run(app, host="0.0.0.0", port=8000)
