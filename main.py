@@ -1,6 +1,7 @@
 import os
 # import aiohttp
 from fastapi import FastAPI, Request
+import uvicorn
 # from telebot.async_telebot import AsyncTeleBot
 # from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 # from dotenv import load_dotenv
@@ -119,9 +120,9 @@ async def telegram_webhook(request: Request):
     return {"ok": True}
 
 # Set Telegram bot webhook
-async def set_webhook():
-    webhook_url = f"https://defisins-backend.vercel.app/webhook/"
-    print(f"Setting webhook to: {webhook_url}")
+# async def set_webhook():
+#     webhook_url = f"https://defisins-backend.vercel.app/webhook/"
+#     print(f"Setting webhook to: {webhook_url}")
     # try:
     #     result = await bot.set_webhook(webhook_url)
     #     if result:
@@ -143,5 +144,4 @@ async def set_webhook():
 #         print(f"Error: {type(e).__name__} - {str(e)}")
 
 if __name__ == "__main__":
-    asyncio.run(set_webhook()) # for Webhook
-    # asyncio.run(main()) # for local testing
+    uvicorn.run(app, host="0.0.0.0", port=8000) 
