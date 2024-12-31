@@ -153,6 +153,11 @@ async def start(message):
     keyboard.add(InlineKeyboardButton(text="Open App", web_app=WebAppInfo(url="https://defi-sins.netlify.app/")))
     await bot.send_message(message.chat.id, "Welcome to the BeyCoin Bot! Please select an option:", reply_markup=keyboard)
 
+@app.get("/")
+async def root():
+    """Root endpoint for the FastAPI application."""
+    return {"message": "Hello World"}
+
 
 @app.post("/webhook/")
 async def telegram_webhook(request: Request):
@@ -161,21 +166,21 @@ async def telegram_webhook(request: Request):
     await bot.process_new_updates([update])  # Process the update with your bot
     return {"ok": True}
 
-async def set_webhook():
-    """Set the webhook for the bot."""
-    # Use the environment variable for the Vercel URL
-    webhook_url = f"https://{os.environ.get('VERCEL_URL')}/webhook/"
+# async def set_webhook():
+#     """Set the webhook for the bot."""
+#     # Use the environment variable for the Vercel URL
+#     webhook_url = f"https://{os.environ.get('VERCEL_URL')}/webhook/"
     
-    try:
-        await bot.set_webhook(webhook_url)
-        print(f"Webhook set to: {webhook_url}")
-    except Exception as e:
-        print(f"Error setting webhook: {e}")
+#     try:
+#         await bot.set_webhook(webhook_url)
+#         print(f"Webhook set to: {webhook_url}")
+#     except Exception as e:
+#         print(f"Error setting webhook: {e}")
 
 async def main():
     """Start the bot's polling loop or set webhook."""
     print("Bot started...")
-    await set_webhook()  # Start or stop the webhook for website
+    # await set_webhook()  # Start or stop the webhook for website
     try:
         await bot.polling(non_stop=True)  # Comment this line if you only want to use webhook
     except Exception as e:
@@ -184,4 +189,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # uvicorn.run(app, host="0.0.0.0", port=8000)

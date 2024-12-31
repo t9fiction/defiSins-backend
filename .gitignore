@@ -63,3 +63,4 @@ requirements-*.txt
 # Docker
 *.dockerfile
 docker-compose.override.yml
+.vercel
