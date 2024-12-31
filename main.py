@@ -119,7 +119,7 @@ async def telegram_webhook(request: Request):
 
 # Set Telegram bot webhook
 async def set_webhook():
-    webhook_url = f"https://{os.environ.get('VERCEL_URL')}/webhook/"
+    webhook_url = f"https://defisins-backend.vercel.app/webhook/"
     try:
         await bot.set_webhook(webhook_url)
         print(f"Webhook set to: {webhook_url}")
