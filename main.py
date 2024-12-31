@@ -6,6 +6,7 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 from dotenv import load_dotenv
 from supabase import create_client, Client
 import asyncio
+from telebot import asyncio_helper
 
 # Load environment variables
 load_dotenv()
@@ -120,11 +121,16 @@ async def telegram_webhook(request: Request):
 # Set Telegram bot webhook
 async def set_webhook():
     webhook_url = f"https://defisins-backend.vercel.app/webhook/"
+    print(f"Setting webhook to: {webhook_url}")
     try:
-        await bot.set_webhook(webhook_url)
-        print(f"Webhook set to: {webhook_url}")
+        result = await bot.set_webhook(webhook_url)
+        if result:
+            print("Webhook successfully set.")
+        else:
+            print("Failed to set webhook.")
     except Exception as e:
         print(f"Error setting webhook: {e}")
+
 
 # Main entry point for local testing
 # async def main():
