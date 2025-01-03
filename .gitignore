@@ -53,7 +53,7 @@ desktop.ini
 *.tmp
 
 # Output of 'poetry export'
-requirements.txt
+# requirements.txt
 requirements-dev.txt
 requirements-*.txt
 
