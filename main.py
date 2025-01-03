@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from supabase import create_client, Client
 import asyncio
 from telebot import asyncio_helper
+from fastapi.middleware.cors import CORSMiddleware
 
 # Load environment variables
 load_dotenv()
@@ -24,10 +25,21 @@ if not TOKEN:
 # Proxy configuration
 asyncio_helper.proxy = 'socks4://129.146.163.153:47060'
 
+
 bot = AsyncTeleBot(TOKEN)
 
 # Create FastAPI application
 app = FastAPI()
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
 
 # Ensure Supabase bucket exists
 async def ensure_bucket_exists(bucket_name):
@@ -143,5 +155,7 @@ async def set_webhook():
 #         print(f"Error: {type(e).__name__} - {str(e)}")
 
 if __name__ == "__main__":
+    import uvicorn
     asyncio.run(set_webhook()) # for Webhook
+    uvicorn.run(app, host="0.0.0.0", port=8000)
     # asyncio.run(main()) # for local testing
