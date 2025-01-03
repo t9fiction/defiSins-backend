@@ -132,7 +132,7 @@ async def telegram_webhook(request: Request):
 
 # Set Telegram bot webhook
 async def set_webhook():
-    webhook_url = f"https://defisins-backend.onrender.com"
+    webhook_url = f"https://api.render.com/deploy/srv-cts4mipu0jms73b85sq0?key=aHSXx-6FiLA"
     print(f"Setting webhook to: {webhook_url}")
     try:
         result = await bot.set_webhook(webhook_url)
