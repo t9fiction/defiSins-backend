@@ -2,7 +2,7 @@ import os
 import aiohttp
 from fastapi import FastAPI, Request
 from telebot.async_telebot import AsyncTeleBot
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo, Update
 from dotenv import load_dotenv
 from supabase import create_client, Client
 import asyncio
@@ -123,9 +123,14 @@ async def start_command(message):
 async def root():
     return {"message": "Hello World"}
 
+# Webhook route to receive updates from Telegram
 @app.post("/webhook/")
 async def telegram_webhook(request: Request):
-    update = await request.json()
+    # Get the JSON data
+    json_data = await request.json()
+    # Convert dict to Update object
+    update = Update.de_json(json_data)
+    # Now process the update
     await bot.process_new_updates([update])
     return {"ok": True}
 
