@@ -3,6 +3,4 @@ uvicorn
 python-dotenv
 aiohttp
 pyTelegramBotAPI
-python-telebot
-python-telegram-bot
 supabase
